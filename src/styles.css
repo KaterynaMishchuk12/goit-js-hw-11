@@ -1,0 +1,36 @@
+.is-hidden {
+  position: absolute;
+  overflow: hidden;
+  margin: -1px;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+}
+img {
+  display: block;
+  max-width: 100%;
+  border: 1px solid black;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: aqua;
+  cursor: pointer;
+}
+
+button:hover,
+button:focus {
+  background-color: blueviolet;
+}
+.search-form {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  padding: 24px 24px;
+  gap: 32px;
+  align-items: center;
+  justify-content: center;
+}
