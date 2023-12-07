@@ -8,4 +8,4 @@ export async function fetchPhoto(q, page, perPage) {
   const response = await axios.get(url);
   return response.data;
 }
-fetchPhoto();
+

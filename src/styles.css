@@ -1,3 +1,5 @@
+*{box-sizing: border-box;}
+
 .is-hidden {
   position: absolute;
   overflow: hidden;
@@ -28,9 +30,34 @@ button:focus {
 .search-form {
   position: fixed;
   display: flex;
+  top: 0;
   width: 100%;
   padding: 24px 24px;
   gap: 32px;
   align-items: center;
   justify-content: center;
 }
+
+.gallery{
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 100px;  
+  justify-content: center;
+  gap: 40px;
+}
+.photo-card{
+  padding: 20px 20px;
+}
+.gallery_link{
+  display: block;
+}
+.load-more{
+  margin: 30px auto;
+  background-color: chartreuse;
+}
+
+/* .img_box{
+  display: flex;
+  align-items: center;
+  height: 100px;
+} */
