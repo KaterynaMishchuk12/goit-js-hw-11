@@ -1,10 +1,12 @@
 import { refs } from '../index';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+import SimpleLightbox from 'simplelightbox';
 
 export function createMarkup(searchResults) {
   const photosArray = searchResults.map(
     ({
       webformatURL,
-      largeImageURl,
+      largeImageURL,
       tags,
       likes,
       views,
@@ -12,7 +14,7 @@ export function createMarkup(searchResults) {
       downloads,
     }) => {
       return `<div class="photo-card">
-      <div class="img_box"><a class="gallery_link" href="${largeImageURl}"><img src="${webformatURL}" alt="${tags}" loading="lazy" />
+      <div class="img_box"><a class="gallery_link" href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy" />
       </a></div>
       <div class="info">
           <p class="info-item"><b>Likes: ${likes}</b></p><p class="info-item"><b>Views: ${views}</b></p>
@@ -21,4 +23,10 @@ export function createMarkup(searchResults) {
   );
 
   refs.gallery.insertAdjacentHTML('beforeend', photosArray.join(''));
+
+  const lightbox = new SimpleLightbox('.img_box a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+    captionPosition: 'bottom',
+  });
 };

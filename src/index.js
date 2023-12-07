@@ -1,6 +1,6 @@
 import Notiflix from 'notiflix';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
+// import { lightbox } from './js/lightbox';
+// import 'simplelightbox/dist/simple-lightbox.min.css';
 import { fetchPhoto } from './js/pixabay-api';
 import { createMarkup } from './js/markup';
 
@@ -9,12 +9,6 @@ export const refs = {
   gallery: document.querySelector('.gallery'),
   loadMoreBtn: document.querySelector('.load-more'),
 };
-
-const lightbox = new SimpleLightbox('.img_box a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-  captionPosition: 'bottom',
-});
 
 const perPage = 40;
 let page = 1;
@@ -44,8 +38,8 @@ function onSearch(event) {
         );
       } else {
         Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images`);
-        createMarkup(searchResults);
-        lightbox.refresh();
+        createMarkup(searchResults);        
+        // lightbox.refresh();
       }
 
       refs.loadMoreBtn.classList.remove('is-hidden');
