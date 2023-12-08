@@ -1,6 +1,4 @@
 import Notiflix from 'notiflix';
-// import { lightbox } from './js/lightbox';
-// import 'simplelightbox/dist/simple-lightbox.min.css';
 import { fetchPhoto } from './js/pixabay-api';
 import { createMarkup } from './js/markup';
 
@@ -41,8 +39,10 @@ function onSearch(event) {
         createMarkup(searchResults);        
         // lightbox.refresh();
       }
-
+if(data.totalHits > perPage){
       refs.loadMoreBtn.classList.remove('is-hidden');
+    window.addEventListener("scroll", onInfiniteScroll)};
+      scrollPage();
     })
     .catch(onFetchError);
 
@@ -56,13 +56,34 @@ function onLoadMoreClick() {
   fetchPhoto(keyOfSearchPhoto, page, perPage)
     .then(data => {
       const searchResults = data.hits;
+      const numberOfLastPage = Math.ceil(data.totalHits / perPage);
 
       createMarkup(searchResults);
       lightbox.refresh();
+      if(page === numberOfLastPage) {
+        refs.loadMoreBtn.classList.add('is-hidden');
+        Notiflix.Notify.info("We`re soory, but you`ve reached the end of search results.");
+        refs.loadMoreBtn.removeEventListener('click', onLoadMoreClick)
+      }
+    
     })
     .catch(onFetchError);
 }
 
 function onFetchError() {
-  Notiflix.Notify.failure('Oops! Something went wrong. Please, try again.');
+   Notiflix.Notify.failure('Oops! Something went wrong. Please, try again.');
+}
+
+function scrollPage() {
+  const { height: cardHeight } = refs.gallery.firstElementChild.getBoundingClientRect();
+
+window.scrollBy({
+  top: cardHeight * 2,
+  behavior: "smooth",
+});
+}
+
+function onInfiniteScroll() {
+  if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight){
+  onLoadMoreClick();}
 }

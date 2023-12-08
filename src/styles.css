@@ -19,13 +19,16 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: aqua;
+  background-color:aquamarine;
   cursor: pointer;
+  height: 36px;
+  width: 120px;
+  border-radius: 5px;
 }
 
 button:hover,
 button:focus {
-  background-color: blueviolet;
+  background-color: rgb(129, 244, 129);
 }
 .search-form {
   position: fixed;
@@ -36,6 +39,12 @@ button:focus {
   gap: 32px;
   align-items: center;
   justify-content: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;;
+}
+input{
+  height: 36px;
+  width: 320px;
+  border-radius: 5px;
 }
 
 .gallery{
@@ -43,7 +52,7 @@ button:focus {
   flex-wrap: wrap;
   margin-top: 100px;  
   justify-content: center;
-  gap: 40px;
+  gap: 30px;
 }
 .photo-card{
   padding: 20px 20px;
@@ -53,11 +62,5 @@ button:focus {
 }
 .load-more{
   margin: 30px auto;
-  background-color: chartreuse;
+  background-color:aquamarine;
 }
-
-/* .img_box{
-  display: flex;
-  align-items: center;
-  height: 100px;
-} */
