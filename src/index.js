@@ -36,13 +36,14 @@ function onSearch(event) {
         );
       } else {
         Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images`);
-        createMarkup(searchResults);        
+        createMarkup(searchResults);
         // lightbox.refresh();
       }
-if(data.totalHits > perPage){
-      refs.loadMoreBtn.classList.remove('is-hidden');
-    window.addEventListener("scroll", onInfiniteScroll)};
-      scrollPage();
+      if (data.totalHits > perPage) {
+        refs.loadMoreBtn.classList.remove('is-hidden');
+        window.addEventListener('scroll', onInfiniteScroll);
+      }
+      // scrollPage();
     })
     .catch(onFetchError);
 
@@ -59,31 +60,36 @@ function onLoadMoreClick() {
       const numberOfLastPage = Math.ceil(data.totalHits / perPage);
 
       createMarkup(searchResults);
-      lightbox.refresh();
-      if(page === numberOfLastPage) {
+      // lightbox.refresh();
+      if (page === numberOfLastPage) {
         refs.loadMoreBtn.classList.add('is-hidden');
-        Notiflix.Notify.info("We`re soory, but you`ve reached the end of search results.");
-        refs.loadMoreBtn.removeEventListener('click', onLoadMoreClick)
+        Notiflix.Notify.info(
+          'We`re soory, but you`ve reached the end of search results.'
+        );
+        refs.loadMoreBtn.removeEventListener('click', onLoadMoreClick);
+        window.removeEventListener('scroll', onInfiniteScroll);
       }
-    
     })
     .catch(onFetchError);
 }
 
 function onFetchError() {
-   Notiflix.Notify.failure('Oops! Something went wrong. Please, try again.');
+  Notiflix.Notify.failure('Oops! Something went wrong. Please, try again.');
 }
-
-function scrollPage() {
-  const { height: cardHeight } = refs.gallery.firstElementChild.getBoundingClientRect();
-
-window.scrollBy({
-  top: cardHeight * 2,
-  behavior: "smooth",
-});
-}
-
 function onInfiniteScroll() {
-  if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight){
-  onLoadMoreClick();}
+  if (
+    window.innerHeight + window.scrollY >=
+    document.documentElement.scrollHeight
+  ) {
+    onLoadMoreClick();
+  }
 }
+
+// function scrollPage() {
+//   const { height: cardHeight } = refs.gallery.firstElementChild.getBoundingClientRect();
+
+// window.scrollBy({
+//   top: cardHeight * 2,
+//   behavior: "smooth",
+// });
+// }
