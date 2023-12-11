@@ -41,9 +41,9 @@ function onSearch(event) {
       }
       if (data.totalHits > perPage) {
         refs.loadMoreBtn.classList.remove('is-hidden');
-        window.addEventListener('scroll', onInfiniteScroll);
+        // window.addEventListener('scroll', onInfiniteScroll);
       }
-      // scrollPage();
+      scrollPage();
     })
     .catch(onFetchError);
 
@@ -52,44 +52,49 @@ function onSearch(event) {
   event.currentTarget.reset();
 }
 
-function onLoadMoreClick() {
+async function onLoadMoreClick() {
   page += 1;
-  fetchPhoto(keyOfSearchPhoto, page, perPage)
-    .then(data => {
-      const searchResults = data.hits;
-      const numberOfLastPage = Math.ceil(data.totalHits / perPage);
+  try {
+    const result = await fetchPhoto(keyOfSearchPhoto, page, perPage);
+    const searchResults = result.hits;
+    const numberOfLastPage = Math.ceil(result.totalHits / perPage);
+    createMarkup(searchResults);
 
-      createMarkup(searchResults);
-      // lightbox.refresh();
-      if (page === numberOfLastPage) {
-        refs.loadMoreBtn.classList.add('is-hidden');
-        Notiflix.Notify.info(
-          'We`re soory, but you`ve reached the end of search results.'
-        );
-        refs.loadMoreBtn.removeEventListener('click', onLoadMoreClick);
-        window.removeEventListener('scroll', onInfiniteScroll);
-      }
-    })
-    .catch(onFetchError);
+    if (page === numberOfLastPage) {
+      refs.loadMoreBtn.classList.add('is-hidden');
+      Notiflix.Notify.info(
+        'We`re soory, but you`ve reached the end of search results.'
+      );
+      refs.loadMoreBtn.removeEventListener('click', onLoadMoreClick);
+      // window.removeEventListener('scroll', onInfiniteScroll);
+    }
+  } catch (error) {
+    onFetchError;
+  }
+  //  lightbox.refresh();
 }
 
 function onFetchError() {
   Notiflix.Notify.failure('Oops! Something went wrong. Please, try again.');
 }
-function onInfiniteScroll() {
-  if (
-    window.innerHeight + window.scrollY >=
-    document.documentElement.scrollHeight
-  ) {
-    onLoadMoreClick();
-  }
+
+function scrollPage() {
+  const { height: cardHeight } =
+    refs.gallery.firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
 }
 
-// function scrollPage() {
-//   const { height: cardHeight } = refs.gallery.firstElementChild.getBoundingClientRect();
-
-// window.scrollBy({
-//   top: cardHeight * 2,
-//   behavior: "smooth",
-// });
+// треба допрацювати цей скрол, щоб не задвоювалися сторінки 
+// при новому запиті пошуку, тому поки без нього
+// function onInfiniteScroll() {
+//   if (
+//     window.innerHeight + window.scrollY >=
+//     document.documentElement.scrollHeight
+//   ) {
+//     onLoadMoreClick();
+//   }
 // }
